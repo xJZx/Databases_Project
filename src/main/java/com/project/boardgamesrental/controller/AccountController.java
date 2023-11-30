@@ -40,9 +40,15 @@ public class AccountController {
     }
 
     @PatchMapping("/login")
-    public String updateLogin(@RequestBody Account account){
-        accountService.updateIsLogged(account.getId());
-        return "Account's login changed!";
+    public String loginAccount(@RequestBody Account account){
+        accountService.loginAccount(account.getEmail(), account.getPassword());
+        return "Account's logged in!";
+    }
+
+    @PatchMapping("/logout")
+    public String logoutAccount(@RequestBody Account account){
+        accountService.logoutAccount(account.getId());
+        return "Account's logged out!";
     }
 
 }

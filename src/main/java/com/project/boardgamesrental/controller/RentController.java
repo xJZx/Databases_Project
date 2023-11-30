@@ -17,9 +17,8 @@ public class RentController {
     private RentService rentService;
 
     @PostMapping("/add")
-    public String add(@RequestBody Rent rent){
-        rentService.newRent(rent);
-        return "New rent added";
+    public void add(@RequestBody Rent rent){
+        rentService.newRent(rent, rent.getClientId());
     }
 
     @GetMapping("/getAll")

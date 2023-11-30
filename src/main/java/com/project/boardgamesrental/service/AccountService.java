@@ -9,7 +9,8 @@ public interface AccountService {
     public Account saveAccount(Account account);
     public List<Account> getAllAccounts();
     public void updateAccountPhoneNumber(Integer accountId, String phoneNumber);
-    public void updateIsLogged(Integer accountId);
+    public void loginAccount(String email, String password);
+    public void logoutAccount(Integer accountId);
     public void deleteAccount(Integer accountId);
 
     // metody pomocnicze

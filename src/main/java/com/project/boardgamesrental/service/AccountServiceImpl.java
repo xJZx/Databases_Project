@@ -46,7 +46,23 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updateIsLogged(Integer accountId) {
+    public void loginAccount(String email, String password) {
+        List<Account> currentListAccount = accountRepository.findAll();
+
+        for (int i = 0; i < currentListAccount.size(); i++) {
+            if(currentListAccount.get(i).getEmail().equals(email)){
+                if(currentListAccount.get(i).getPassword().equals(password)){
+                    Account account = currentListAccount.get(i);
+
+                    account.setLogged(!account.isLogged());
+                    accountRepository.save(account);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void logoutAccount(Integer accountId){
         Optional<Account> currentAccount = accountRepository.findById(accountId);
 
         if (currentAccount.isPresent()) {

@@ -1,6 +1,8 @@
 package com.project.boardgamesrental.service;
 
+import com.project.boardgamesrental.model.Account;
 import com.project.boardgamesrental.model.Rent;
+import com.project.boardgamesrental.repository.AccountRepository;
 import com.project.boardgamesrental.repository.RentRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,24 @@ public class RentServiceImpl implements RentService{
     @Autowired
     private RentRepository rentRepository;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     @Override
-    public Rent newRent(Rent rent) {
-        return rentRepository.save(rent);
+    public Rent newRent(Rent rent, Integer accountId) {
+        Optional<Account> currentAccount = accountRepository.findById(accountId);
+
+        if(currentAccount.isPresent()){
+            Account account = currentAccount.get();
+
+            if(account.isLogged()){
+                System.out.println("Rent added");
+                return rentRepository.save(rent);
+            }
+        }
+
+        System.out.println("Failed adding rent");
+        return null;
     }
 
     @Override
