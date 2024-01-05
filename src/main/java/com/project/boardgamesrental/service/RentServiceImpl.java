@@ -30,6 +30,7 @@ public class RentServiceImpl implements RentService{
 
             if(account.isLogged()){
                 System.out.println("Rent added");
+                rent.getAccount().setId(accountId);
                 return rentRepository.save(rent);
             }
         }

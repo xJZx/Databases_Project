@@ -1,32 +1,31 @@
 package com.project.boardgamesrental.controller;
 
-import com.project.boardgamesrental.model.Account;
 import com.project.boardgamesrental.model.Rent;
 import com.project.boardgamesrental.service.RentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
 
-@RestController
-@RequestMapping("/rent")
+@Controller
 public class RentController {
 
     @Autowired
     private RentService rentService;
 
-    @PostMapping("/add")
+    @PostMapping("/addRent")
     public void add(@RequestBody Rent rent){
-        rentService.newRent(rent, rent.getClientId());
+        rentService.newRent(rent, rent.getAccount().getId());
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/getAllRents")
     public List<Rent> getAllRents(){
         return rentService.getAllRents();
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/deleteRent")
     public String deleteRent(@RequestBody Rent rent){
         rentService.deleteRent(rent.getId());
         return "Rent deleted";

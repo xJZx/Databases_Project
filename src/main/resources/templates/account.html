@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <title>Konto</title>
+</head>
+<body>
+
+    <header>
+        <h1>Wypożyczalnia Gier Planszowych</h1>
+        <nav>
+            <ul>
+                <li><a th:href="@{/}">Strona Główna</a></li>
+                <li><a th:href="@{games}">Lista Gier</a></li>
+                <li><a th:href="@{account}">Konto</a></li>
+                <li><a th:href="@{rentgame}">Wypożycz Grę</a></li>
+                <li><a th:href="@{login}">Logowanie</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="account-section">
+        <h2>Moje Konto</h2>
+        <h3>Twoje aktualne wypożyczenia:</h3>
+        <!-- Lista wypożyczonych gier będzie pobierana z bazy danych -->
+        <table class="table">
+            <tr>
+                <th>Lista gier: </th>
+            </tr>
+            <tr th:each="rent : ${rents}">
+                <td th:text="${rent.game.title}"></td>
+                <td th:text="${rent.id}"></td>
+            </tr>
+        </table>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Wypożyczalnia Gier Planszowych. Wszelkie prawa zastrzeżone.</p>
+    </footer>
+
+</body>
+</html>

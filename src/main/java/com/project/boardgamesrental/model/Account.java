@@ -2,6 +2,8 @@ package com.project.boardgamesrental.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "ACCOUNTS")
 public class Account {
@@ -18,9 +20,9 @@ public class Account {
     private boolean isAdmin;
     private boolean isLogged;
 
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    private Rent rent;
+    private List<Rent> rent;
 
     public Account() {
     }
@@ -97,11 +99,18 @@ public class Account {
         isLogged = logged;
     }
 
-    public Rent getRent() {
+//    public Rent getRent() {
+//        return rent;
+//    }
+//
+//    public void setRent(Rent rent) {
+//        this.rent = rent;
+//    }
+    public List<Rent> getRent() {
         return rent;
     }
 
-    public void setRent(Rent rent) {
+    public void setRent(List<Rent> rent) {
         this.rent = rent;
     }
 }

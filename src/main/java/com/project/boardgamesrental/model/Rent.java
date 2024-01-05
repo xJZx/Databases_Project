@@ -1,7 +1,6 @@
 package com.project.boardgamesrental.model;
 
 import jakarta.persistence.*;
-import org.springframework.context.annotation.Primary;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -12,22 +11,38 @@ public class Rent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "GAME_ID", updatable = false, insertable = false)
-    private int gameId;
-    @Column(name = "CLIENT_ID", updatable = false, insertable = false)
-    private int clientId;
-    @DateTimeFormat(pattern = "DD-MM-YYYY")
+//    @Column(name = "GAME_ID")
+//    private int gameId;
+//    @Column(name = "ACCOUNT_ID")
+//    private int accountId;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date rentDate;
-    @DateTimeFormat(pattern = "DD-MM-YYYY")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date returnDate;
 
-    @OneToOne
-    @JoinColumn(name = "CLIENT_ID")
+    @ManyToOne
+    @JoinColumn(name = "ACCOUNT_ID")
     private Account account;
 
     @OneToOne
     @JoinColumn(name = "GAME_ID")
     private Game game;
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
 
     public int getId() {
         return id;
@@ -37,21 +52,21 @@ public class Rent {
         this.id = id;
     }
 
-    public int getGameId() {
-        return gameId;
-    }
-
-    public void setGameId(int gameId) {
-        this.gameId = gameId;
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
-    }
+//    public int getGameId() {
+//        return gameId;
+//    }
+//
+//    public void setGameId(int gameId) {
+//        this.gameId = gameId;
+//    }
+//
+//    public int getAccountId() {
+//        return accountId;
+//    }
+//
+//    public void setAccountId(int clientId) {
+//        this.accountId = clientId;
+//    }
 
     public Date getRentDate() {
         return rentDate;
