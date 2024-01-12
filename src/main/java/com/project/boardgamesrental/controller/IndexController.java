@@ -33,8 +33,13 @@ public class IndexController {
     }
 
     @RequestMapping("/rentgame")
-    public String rentgame(){
-        return "rentgame";
+    public String rentgame(HttpSession session){
+        if(session.getAttribute("account") != null){
+            return "rentgame";
+        }
+        else{
+            return "login";
+        }
     }
 
     @RequestMapping("/account")
