@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -31,12 +32,29 @@ public class GameController {
     }
 
     @PostMapping("/showgames")
-    public String showGames(Model model){
-        Iterable<Game> games = gameRepository.findAll();
+    public String showGames(@RequestParam("gameType") String gameType, Model model){
+        Iterable<Game> games = null;
+
+        // Check the value of gameType and fetch games accordingly
+        if ("all".equals(gameType)) {
+            games = gameRepository.findAll();
+        } else if ("available".equals(gameType)) {
+            // Fetch only available games (customize this based on your logic)
+            List<Game> availableGames = gameRepository.findAll();
+
+            for (int i = 0; i < availableGames.size(); i++) {
+                if(availableGames.get(i).isRent()){
+                    availableGames.remove(i);
+                }
+            }
+
+            games = availableGames;
+        }
 
         model.addAttribute("games", games);
 
         return "showgames";
+
     }
 
     @DeleteMapping("/deleteGame")

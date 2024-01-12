@@ -12,6 +12,9 @@ public interface AccountService {
     public void loginAccount(String email, String password);
     public void logoutAccount(Integer accountId);
     public void deleteAccount(Integer accountId);
+    public boolean isNineDigitPhoneNumber(String phoneNumber);
+    public boolean isValidEmail(String email);
+    public boolean isPasswordValid(String password);
 
     // metody pomocnicze
     public List<Rent> getAllRentsForClient(Integer clientId);

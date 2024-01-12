@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -78,6 +80,63 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteAccount(Integer accountId) {
         accountRepository.deleteById(accountId);
+    }
+
+    @Override
+    public boolean isNineDigitPhoneNumber(String phoneNumber) {
+        // Define the regex pattern for a 9-digit phone number
+        String regex = "\\d{9}";
+
+        // Compile the pattern
+        Pattern pattern = Pattern.compile(regex);
+
+        // Create a Matcher object
+        Matcher matcher = pattern.matcher(phoneNumber);
+
+        // Check if the input string matches the pattern
+        return matcher.matches();
+    }
+
+    @Override
+    public boolean isValidEmail(String email) {
+        // Define the regex pattern for a basic email format
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
+        // Compile the pattern
+        Pattern pattern = Pattern.compile(regex);
+
+        // Create a Matcher object
+        Matcher matcher = pattern.matcher(email);
+
+        // Check if the input string matches the pattern
+        return matcher.matches();
+    }
+
+    @Override
+    public boolean isPasswordValid(String password) {
+        // Check if the password is at least 8 characters long
+        if (password.length() < 8) {
+            return false;
+        }
+
+        // Check if the password contains at least one lowercase letter
+        Pattern lowercasePattern = Pattern.compile("[a-z]");
+        Matcher lowercaseMatcher = lowercasePattern.matcher(password);
+        if (!lowercaseMatcher.find()) {
+            return false;
+        }
+
+        // Check if the password contains at least one uppercase letter
+        Pattern uppercasePattern = Pattern.compile("[A-Z]");
+        Matcher uppercaseMatcher = uppercasePattern.matcher(password);
+        if (!uppercaseMatcher.find()) {
+            return false;
+        }
+
+        // Check if the password contains at least one special character
+        Pattern specialCharacterPattern = Pattern.compile("[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]");
+        Matcher specialCharacterMatcher = specialCharacterPattern.matcher(password);
+        return specialCharacterMatcher.find();
     }
 
     @Override

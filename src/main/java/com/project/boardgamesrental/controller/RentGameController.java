@@ -42,27 +42,37 @@ public class RentGameController {
         if(account.isLogged()){
             Game game = gameRepository.findGameById(gameId);
             if(game != null && !game.isRent()){
-                // dodanie account i game do rent
-                rent.setAccount(account);
-                rent.setGame(game);
-                rentRepository.save(rent);
-                // zmienienie statusu gry
-                game.setRent(true);
-                gameRepository.save(game);
-                // dodanie renta do account
+                if(rent.getRentDate().compareTo(rent.getReturnDate()) < 0){
+                    // dodanie account i game do rent
+                    rent.setAccount(account);
+                    rent.setGame(game);
+                    rentRepository.save(rent);
+                    // zmienienie statusu gry
+                    game.setRent(true);
+                    gameRepository.save(game);
+                    // dodanie renta do account
 //                account.getRent().add(rent);
 //                accountRepository.save(account);
 
-                Iterable<Rent> rents = rentRepository.findAll();
+                    Iterable<Rent> rents = rentRepository.findAll();
 
-                ArrayList<Rent> rentsToAccount = new ArrayList<>();
-                for(Rent rent_iter : rents){
-                    if(rent_iter.getAccount().getId() == account.getId()){
-                        rentsToAccount.add(rent_iter);
+                    ArrayList<Rent> rentsToAccount = new ArrayList<>();
+                    for(Rent rent_iter : rents){
+                        if(rent_iter.getAccount().getId() == account.getId()){
+                            rentsToAccount.add(rent_iter);
+                        }
                     }
-                }
 
-                model.addAttribute("rents", rentsToAccount);
+                    model.addAttribute("rents", rentsToAccount);
+                }
+                else{
+                    System.out.println("Return date is earlier than rent date!");
+                    return "error";
+                }
+            }
+            else{
+                System.out.println("Game does not exist or it is already rent!");
+                return "error";
             }
         }
         return "account";

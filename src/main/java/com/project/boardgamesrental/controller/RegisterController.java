@@ -24,8 +24,23 @@ public class RegisterController {
 
     @PostMapping("/registration")
     public String registration(@ModelAttribute Account account){
+        if(!accountService.isNineDigitPhoneNumber(account.getPhoneNumber())){
+            System.out.println("Phone number wrong!");
+            return "error";
+        }
+
+        if(!accountService.isValidEmail(account.getEmail())){
+            System.out.println("Email wrong!");
+            return "error";
+        }
+
+        if(!accountService.isPasswordValid(account.getPassword())){
+            System.out.println("Password wrong!");
+            return "error";
+        }
+
         if(accountRepository.findByEmail(account.getEmail()) != null){
-            return "register";
+            return "error";
         }
 
         accountService.saveAccount(account);

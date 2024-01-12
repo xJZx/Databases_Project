@@ -38,7 +38,7 @@ public class LoginController {
         }
         else{
             System.out.println("Error!");
-            return "login";
+            return "error";
         }
     }
 }
